@@ -1,0 +1,46 @@
+clear %clears all variables and functions
+close all %clears the command window
+clc %closes all the open figure windows
+
+%Define parameters
+AB = 0.5;
+BC = 1;
+phi = pi / 4;
+phi_deg = rad2deg(phi);
+
+% Point A on 2D Cartesian coordinates 
+xA = 0;
+yA = 0;
+% Point B on 2D Cartesian coordinates 
+xB = AB * cos(phi); 
+yB = AB * sin(phi);
+% Point C on 2D Cartesian coordinates 
+yC = 0;
+eqnC = '(xB-xCsol)^2+(yB-yC)^2 = BC^2'; 
+solC = solve(eqnC, 'xCsol'); %symbolically solves the equation
+xC1 = eval(solC(1)); %you can obtain numerical solutions using eval command
+xC2 = eval(solC(2));
+if xC1>xB
+ xC = xC1;
+else
+ xC = xC2;
+end
+
+beta = atan((yC-yB)/(xC-xB)); %arctangent of the elements
+beta_deg = rad2deg(beta); %convert radian to degree
+
+fprintf('xB=%g (m) \n', xB) %solutions are printed using fprintf command
+fprintf('yB=%g (m) \n', yB)
+fprintf('xC=%g (m) \n', xC)
+fprintf('yC=%g (m) \n', yC)
+fprintf('beta=%g (degrees) \n', beta*180/pi)
+
+plot([xA, xB], [yA, yB], 'r-o', [xB,xC], [yB,yC], 'b-o')
+xlabel('x(m)') %x-axis and y-axis are labeled 
+ylabel('y(m)')
+title('positions for \phi=45 (deg)')
+text(xA,yA,' A') %joints A,B,C are identified on the plot
+text(xB,yB,' B')
+text(xC,yC,' C')
+axis([-0.2 1.4 -0.2 1.4]) %sets scaling for the x and y axes on the plot
+grid %to improve the graph, the background grid is added with this command
